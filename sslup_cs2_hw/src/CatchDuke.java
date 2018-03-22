@@ -101,7 +101,7 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
     class DukeCanvas extends Canvas implements MouseListener, MouseMotionListener {
 
         // duke images
-        Image duke, dukeWave;
+        Image duke, dukeWave, dukeMiss;
         // current position of duke
         int dukeX, dukeY;
         // size of duke
@@ -110,6 +110,7 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
         int hits = 0;
         int misses = 0;
         boolean hit = false;
+        boolean moving = true; // check if duke needs to move or it's an actual miss
         // level of difficulty
         int level = 0;
         public void setLevel(int lv) {
@@ -125,6 +126,7 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
             Toolkit toolkit = Toolkit.getDefaultToolkit();
 	        duke = toolkit.getImage("duke.gif");
 	        dukeWave = toolkit.getImage("dukeWave.gif");
+	        dukeMiss = toolkit.getImage("dukeMiss.gif");
 
 	        addMouseListener(this);
 	        addMouseMotionListener(this);
@@ -134,6 +136,8 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
 	    //reset function
 	    public void reset() {
 	    	hits = misses = level = 0;
+	    	//reset the hits, misses, and the level
+	    	repaint(); // redraw the screen
 	    }
 	    
         /**
@@ -151,7 +155,8 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
                 // display hit image
                 g.drawImage(dukeWave, dukeX, dukeY, this);
             }
-            else {
+            else if (moving) {
+            	
                 // get image width and height
                 dukeWidth = duke.getWidth(this);
                 dukeHeight = duke.getHeight(this);
@@ -163,6 +168,20 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
                 dukeX = (int)(Math.random()*1000) % dWidth;
                 dukeY = (int)(Math.random()*1000) % dHeight;
                	g.drawImage(duke, dukeX, dukeY, this);
+            } else {
+                // get image width and height
+                dukeWidth = duke.getWidth(this);
+                dukeHeight = duke.getHeight(this);
+                // calculate the width and height of the display area
+                int dWidth = canvasWidth - dukeWidth;
+                int dHeight = canvasHeight - dukeHeight;
+
+                // generate a new position for the duke and draw it
+                dukeX = (int)(Math.random()*1000) % dWidth;
+                dukeY = (int)(Math.random()*1000) % dHeight;
+               	g.drawImage(dukeMiss, dukeX, dukeY, this);
+               	// allow the duke to reset to normal moving image
+               	moving = true;
             }
         }
 
@@ -186,6 +205,7 @@ public class CatchDuke extends Frame implements ItemListener, ActionListener {
                 Toolkit.getDefaultToolkit().beep();
                 missLabel.setText(String.valueOf(++misses));
                 hit = false;
+                moving = false;
             }
             repaint();
         }
