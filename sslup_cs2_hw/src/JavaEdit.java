@@ -4,6 +4,7 @@
  *	Lab:			    Number 7
  *	FILE:				JavaEdit.java
  *	TARGET:				Java 6.0 and 7.0
+ *	AUTHOR:				Stan Slupecki
  ******************************************************************/
 
 import java.awt.*;
@@ -16,7 +17,7 @@ public class JavaEdit extends Frame implements ActionListener {
 	String fileName;
 	TextArea text;
 	MenuItem newMI, openMI, saveMI, saveAsMI, exitMI;
-	MenuItem cutMI, copyMI, deleteMI, pasteMI;
+	MenuItem cutMI, copyMI, deleteMI, pasteMI, selectAllMI;
 
     /**
      * Constructor
@@ -57,6 +58,10 @@ public class JavaEdit extends Frame implements ActionListener {
 		pasteMI.addActionListener(this);
 		deleteMI = editMenu.add(new MenuItem("Delete"));
 		deleteMI.addActionListener(this);
+		// Stan's additions
+		selectAllMI = editMenu.add(new MenuItem("Select All"));
+		selectAllMI.addActionListener(this);
+		
 		
         // create text editing area
 	    text = new TextArea();
@@ -95,6 +100,9 @@ public class JavaEdit extends Frame implements ActionListener {
 		}
 		else if(source == saveAsMI) {
 			doSaveAs();
+		}
+		else if(source == selectAllMI) {
+			doSelectAll();
 		}
 	}
 
@@ -249,6 +257,10 @@ public class JavaEdit extends Frame implements ActionListener {
 		    text.replaceRange(clipBoard, text.getSelectionStart(),
 		                      text.getSelectionEnd());
 		}
+	}
+	
+	private void doSelectAll() {
+		text.selectAll();
 	}
 
 	/**
