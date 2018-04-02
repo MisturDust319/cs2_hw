@@ -300,6 +300,13 @@ public class JavaEdit extends Frame implements ActionListener {
 	        okButton = new Button(" OK ");
 	        okButton.addActionListener(this);
 	        panel.add(okButton);
+	        this.addWindowListener( new WindowAdapter() {
+	        	@Override
+	        	public void windowClosing(WindowEvent we) {
+	        		setVisible(false);
+	    	        dispose();
+	        	}
+	        });
 	    }
 
 	    // implementing ActionListener
