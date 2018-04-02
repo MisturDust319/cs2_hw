@@ -18,6 +18,7 @@ public class JavaEdit extends Frame implements ActionListener {
 	TextArea text;
 	MenuItem newMI, openMI, saveMI, saveAsMI, exitMI;
 	MenuItem cutMI, copyMI, deleteMI, pasteMI, selectAllMI;
+	MenuItem aboutMI;
 
     /**
      * Constructor
@@ -61,7 +62,12 @@ public class JavaEdit extends Frame implements ActionListener {
 		// Stan's additions
 		selectAllMI = editMenu.add(new MenuItem("Select All"));
 		selectAllMI.addActionListener(this);
-		
+
+		// create help menu
+		Menu helpMenu = new Menu("Help");
+		menubar.add(helpMenu);
+		aboutMI = helpMenu.add(new MenuItem("About"));
+		aboutMI.addActionListener(this);
 		
         // create text editing area
 	    text = new TextArea();
@@ -103,6 +109,9 @@ public class JavaEdit extends Frame implements ActionListener {
 		}
 		else if(source == selectAllMI) {
 			doSelectAll();
+		}
+		else if(source == aboutMI) {
+			doOpenAboutDialog();
 		}
 	}
 
@@ -261,6 +270,12 @@ public class JavaEdit extends Frame implements ActionListener {
 	
 	private void doSelectAll() {
 		text.selectAll();
+	}
+	
+	private void doOpenAboutDialog() {
+		MessageDialog dialog = new MessageDialog(this, "About JavaEdit",
+                "JavaEdit in Java, Version 2.0, 2018");
+		dialog.setVisible(true);
 	}
 
 	/**
