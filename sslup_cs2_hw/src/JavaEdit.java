@@ -38,6 +38,7 @@ public class JavaEdit extends Frame implements ActionListener {
 		openMI.addActionListener(this);
 		fileMenu.addSeparator();
 		saveMI = fileMenu.add(new MenuItem("Save"));
+		saveMI.addActionListener(this);
 		saveAsMI = fileMenu.add(new MenuItem("Save As ..."));
 		saveAsMI.addActionListener(this);
 		fileMenu.addSeparator();
@@ -88,6 +89,9 @@ public class JavaEdit extends Frame implements ActionListener {
 		}
 		else if(source == deleteMI) {
 			doDelete();
+		}
+		else if(source == saveMI) {
+			doSave();
 		}
 		else if(source == saveAsMI) {
 			doSaveAs();
@@ -184,9 +188,37 @@ public class JavaEdit extends Frame implements ActionListener {
 	/**
 	 * Method to save a file
 	 */
-	//public void doSave(string fileName) {
-	//	return;
-	//}
+	public void doSave() {
+		// if filename is set, use that to save.
+		//	otherwise, open a save as dialog.
+		if(fileName != null) {
+			FileWriter writer = null;
+			try {
+				writer = new FileWriter(fileName);
+			} catch (IOException ioe) {
+				MessageDialog dialog = new MessageDialog(this, "Error Message",
+	                    "Could not save file: "+fileName);
+				dialog.setVisible(true);
+				return;
+			}
+			
+			
+			try {
+			    String textBody = text.getText();
+			    writer.write(textBody);
+			    // close writer
+			    writer.close();
+			} catch (IOException ioe) {
+		        MessageDialog dialog = new MessageDialog(this, "Error Message",
+		                                   "Error writing file: "+ioe.toString());
+	            dialog.setVisible(true);
+	            return;
+			}
+		}
+		else {
+			doSaveAs();
+		}
+	}
 
 	/**
 	 * method to clear text editing area
