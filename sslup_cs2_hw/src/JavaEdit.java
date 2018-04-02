@@ -39,9 +39,11 @@ public class JavaEdit extends Frame implements ActionListener {
 		fileMenu.addSeparator();
 		saveMI = fileMenu.add(new MenuItem("Save"));
 		saveAsMI = fileMenu.add(new MenuItem("Save As ..."));
+		saveAsMI.addActionListener(this);
 		fileMenu.addSeparator();
 		exitMI = fileMenu.add(new MenuItem("Exit"));
 		exitMI.addActionListener(this);
+		
 
 		// create edit menu
 		Menu editMenu = new Menu("Edit");
@@ -54,7 +56,7 @@ public class JavaEdit extends Frame implements ActionListener {
 		pasteMI.addActionListener(this);
 		deleteMI = editMenu.add(new MenuItem("Delete"));
 		deleteMI.addActionListener(this);
-
+		
         // create text editing area
 	    text = new TextArea();
 	    add(text, BorderLayout.CENTER);
@@ -86,6 +88,9 @@ public class JavaEdit extends Frame implements ActionListener {
 		}
 		else if(source == deleteMI) {
 			doDelete();
+		}
+		else if(source == saveAsMI) {
+			doSaveAs();
 		}
 	}
 
@@ -136,11 +141,52 @@ public class JavaEdit extends Frame implements ActionListener {
 	}
 	
 	/**
+	 * Method to saveAs a file
+	 */
+	
+	public void doSaveAs() {
+		// display file selection dialog
+		FileDialog fDialog = new FileDialog(this, "Save as ...", FileDialog.SAVE);
+		fDialog.setVisible(true);
+		
+		// get user's selected file name
+		String name = fDialog.getFile();
+		
+		// If user canceled file selection, return without doing anything.
+		if(name == null)
+			return;
+		fileName = fDialog.getDirectory() + name;
+
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(fileName);
+		} catch (IOException ioe) {
+			MessageDialog dialog = new MessageDialog(this, "Error Message",
+                    "Could not save file: "+fileName);
+			dialog.setVisible(true);
+			return;
+		}
+		
+		
+		try {
+		    String textBody = text.getText();
+		    writer.write(textBody);
+		    // close writer
+		    writer.close();
+		} catch (IOException ioe) {
+	        MessageDialog dialog = new MessageDialog(this, "Error Message",
+	                                   "Error writing file: "+ioe.toString());
+            dialog.setVisible(true);
+            return;
+		}
+	}
+	
+	/**
 	 * Method to save a file
 	 */
-	public void doSave(string fileName) {
-		
-	}
+	//public void doSave(string fileName) {
+	//	return;
+	//}
 
 	/**
 	 * method to clear text editing area
