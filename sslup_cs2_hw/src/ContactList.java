@@ -132,6 +132,21 @@ public class ContactList extends JFrame implements ActionListener, ListSelection
 		    String searchName = JOptionPane.showInputDialog(this,
 		                        "Please enter a name (last first) to search:");
 		    System.out.println("Name to search: " + searchName);
+		    
+		    // get the index of the desired contact
+		    // if present
+		    int index = nameList.indexOf(searchName);
+		    // if present, display the contact info
+		    if(index > 0) {
+		    	// set the new contact as the selected element
+			    listView.setSelectedIndex(index);
+			    listView.ensureIndexIsVisible(index);
+			    // display the contact in the info pane
+		    	display(index);
+		    }
+		    else {
+		    	JOptionPane.showMessageDialog(this, "Contact Not Found");
+		    }
 		}
 		else if(source == deleteMI) {
 			doDelete(); // delete the currently selected index
@@ -163,41 +178,7 @@ public class ContactList extends JFrame implements ActionListener, ListSelection
 		    display(-1);
 	    }
     }
-    /**
-     * method to search for a contact
-     */
-    private void doSearch() {
-    	class SearchDialog extends JDialog implements ActionListener {
-    		private Button search; // button to start search
-    		private Button cancel; // cancel button
-    		
-    		// constructor
-    		public SearchDialog(Frame parent) {
-    			super(parent, "Search");
-    			setSize(400, 100);
-    			setLocation(150, 150);
-    			setLayout(new BorderLayout());
-    			
-    			JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    			
-    			// set up buttons
-    			search = new Button("Search...");
-    			//search.addActionListener(this);
-    			cancel = new Button("Cancel");
-    			//cancel.addActionListener(this);
-    			
-    		}
-    		
-    		public void actionPerformed(ActionEvent event) {
-    			return; // stub
-    		}
-    	}
-    	
-    	SearchDialog dialog = new SearchDialog(this);
-    	dialog.setVisible(true);
-    }
     
-
 	/**
 	 * method to specify and open a file
 	 */
