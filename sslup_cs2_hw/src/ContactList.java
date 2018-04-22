@@ -163,6 +163,40 @@ public class ContactList extends JFrame implements ActionListener, ListSelection
 		    display(-1);
 	    }
     }
+    /**
+     * method to search for a contact
+     */
+    private void doSearch() {
+    	class SearchDialog extends JDialog implements ActionListener {
+    		private Button search; // button to start search
+    		private Button cancel; // cancel button
+    		
+    		// constructor
+    		public SearchDialog(Frame parent) {
+    			super(parent, "Search");
+    			setSize(400, 100);
+    			setLocation(150, 150);
+    			setLayout(new BorderLayout());
+    			
+    			JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    			
+    			// set up buttons
+    			search = new Button("Search...");
+    			//search.addActionListener(this);
+    			cancel = new Button("Cancel");
+    			//cancel.addActionListener(this);
+    			
+    		}
+    		
+    		public void actionPerformed(ActionEvent event) {
+    			return; // stub
+    		}
+    	}
+    	
+    	SearchDialog dialog = new SearchDialog(this);
+    	dialog.setVisible(true);
+    }
+    
 
 	/**
 	 * method to specify and open a file
