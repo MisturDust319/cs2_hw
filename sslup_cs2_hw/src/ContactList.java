@@ -12,6 +12,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 public class ContactList extends JFrame implements ActionListener, ListSelectionListener {
@@ -62,6 +64,7 @@ public class ContactList extends JFrame implements ActionListener, ListSelection
 		searchMI = editMenu.add(new JMenuItem("Search"));
 		searchMI.addActionListener(this);
 		sortMI = editMenu.add(new JMenuItem("Sort"));
+		sortMI.addActionListener(this);
 
         // create phone list and controls
         JPanel listPanel = new JPanel(new BorderLayout());
@@ -150,6 +153,42 @@ public class ContactList extends JFrame implements ActionListener, ListSelection
 		}
 		else if(source == deleteMI) {
 			doDelete(); // delete the currently selected index
+		}
+		else if(source == sortMI) {
+			// simplify sorting by copying values into vector
+			Vector<String> newList = new Vector<String>();
+			
+			//copy values into vector
+			for(int i = 0; i < nameList.getSize(); i++) {
+				newList.add(nameList.getElementAt(i));
+			}
+			
+			// sort the new list
+			// create a Comparator to dictate how the vector is sorted
+			// a positive return places it higher in the sorted vector
+			//	negative, lower
+			Collections.sort(newList, new Comparator<String>() {
+				public int compare(String a, String b) {
+					if(a.compareTo(b) > 0) {
+						return 1; 
+					}
+					else {
+						return -1;
+					}
+				}
+			});
+			
+			// copy values back into nameList
+			nameList.clear();
+			for(int i = 0; i < newList.size(); i++) {
+				nameList.addElement(newList.elementAt(i));
+			}
+			
+			// then display the first item in the newly sorted vector
+			listView.setSelectedIndex(0);
+		    listView.ensureIndexIsVisible(0);
+		    // display the contact in the info pane
+	    	display(0);
 		}
 	}
 
