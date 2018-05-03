@@ -28,7 +28,7 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
     JButton threeDRec;
 
     // Color choice box
-    Choice colorChoice;
+    JComboBox colorChoice;
 
     // the canvas
     DrawCanvas canvas;
@@ -65,10 +65,8 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
         topPanel.add(colorPanel);
         JLabel label = new JLabel("Filled Color:");
         colorPanel.add(label);
-        colorChoice = new Choice();
-        for(int i=0; i<COLOR_NAMES.length; i++) {
-            colorChoice.add(COLOR_NAMES[i]);
-        }
+        colorChoice = new JComboBox(COLOR_NAMES);
+        
         colorPanel.add(colorChoice);
         colorChoice.addItemListener(this);
 
