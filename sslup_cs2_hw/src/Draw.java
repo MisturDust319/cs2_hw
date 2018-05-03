@@ -3,13 +3,16 @@
  *	Lab:			    Number 4
  *	FILE:				Draw.java
  *	TARGET:				Java 6.0 and 7.0
+ *	AUTHOR:				Stan Slupecki
  *****************************************************************/
 
 // Import Core Java packages
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
-public class Draw extends Frame implements ActionListener, ItemListener {
+public class Draw extends JFrame implements ActionListener, ItemListener {
 
 	// Initial Frame size
 	static final int WIDTH = 400;                // frame width
@@ -20,9 +23,9 @@ public class Draw extends Frame implements ActionListener, ItemListener {
     static final Color COLORS[] = {null, Color.red, Color.blue, Color.green};
 
     // Button control
-    Button circle;
-    Button roundRec;
-    Button threeDRec;
+    JButton circle;
+    JButton roundRec;
+    JButton threeDRec;
 
     // Color choice box
     Choice colorChoice;
@@ -45,11 +48,11 @@ public class Draw extends Frame implements ActionListener, ItemListener {
         Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(buttonPanel);
 
-        circle = new Button("Circle");
+        circle = new JButton("Circle");
         buttonPanel.add(circle);
-        roundRec = new Button("Rounded Rectangle");
+        roundRec = new JButton("Rounded Rectangle");
         buttonPanel.add(roundRec);
-        threeDRec = new Button("3D Rectangle");
+        threeDRec = new JButton("3D Rectangle");
         buttonPanel.add(threeDRec);
 
         // add button listener
