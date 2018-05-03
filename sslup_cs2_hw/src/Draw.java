@@ -63,7 +63,7 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
         // create panel for color choices
         Panel colorPanel = new Panel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(colorPanel);
-        Label label = new Label("Filled Color:");
+        JLabel label = new JLabel("Filled Color:");
         colorPanel.add(label);
         colorChoice = new Choice();
         for(int i=0; i<COLOR_NAMES.length; i++) {
