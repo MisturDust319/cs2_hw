@@ -9,7 +9,7 @@
 // Import Core Java packages
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -24,6 +24,9 @@ public class Draw extends JFrame implements ActionListener, ItemListener, ListSe
     static final String COLOR_NAMES[] = {"None", "Red", "Blue", "Green"};
     static final Color COLORS[] = {null, Color.red, Color.blue, Color.green};
 
+    // index for the currently selected drawing object
+    int currentIndex;
+    
     // Button control
     JButton circle;
     JButton roundRec;
@@ -32,7 +35,9 @@ public class Draw extends JFrame implements ActionListener, ItemListener, ListSe
     // Color choice box
     JComboBox colorChoice;
 
-    // the list of drawing objects
+    // list of drawing objects
+    ArrayList<Drawing> drawingObjects = new ArrayList<Drawing>();
+    // the display list for drawing objects
     JList<String> drawingList;
     // the vector that holds the display data for drawing objs
     DefaultListModel<String> drawingData;
@@ -90,8 +95,11 @@ public class Draw extends JFrame implements ActionListener, ItemListener, ListSe
         add(listPanel, BorderLayout.WEST);
         
         // create the canvas
-        canvas = new DrawCanvas(drawingData);
+        canvas = new DrawCanvas(drawingData, drawingObjects);
         add(canvas, BorderLayout.CENTER);
+        
+        // set selected index
+        currentIndex = drawingList.getSelectedIndex();
 	} // end of constructor
 
 
@@ -122,6 +130,7 @@ public class Draw extends JFrame implements ActionListener, ItemListener, ListSe
      * implementing valueChanged
      */
     public void valueChanged(ListSelectionEvent event) {
+        currentIndex = drawingList.getSelectedIndex();
     }
 
     /**

@@ -8,13 +8,9 @@
 // Import Core Java packages
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.lang.String;
 
@@ -22,7 +18,7 @@ public class DrawCanvas extends Canvas implements MouseListener,
                                                   MouseMotionListener {
 
     // Container for shapes
-	ArrayList<Drawing> drawings = new ArrayList<Drawing>();
+	ArrayList<Drawing> drawings;
 	// Vector of Strings holding drawing data data
 	DefaultListModel<String> drawingData;
 	
@@ -58,14 +54,17 @@ public class DrawCanvas extends Canvas implements MouseListener,
 	public DrawCanvas() {
 		super();
 		
+		drawings = new ArrayList<Drawing>();
+		
 	    addMouseListener(this);
 	    addMouseMotionListener(this);
 	} // end of constructor
 	
-	public DrawCanvas(DefaultListModel<String> drawingData) {
+	public DrawCanvas(DefaultListModel<String> drawingData, ArrayList<Drawing> drawings) {
 		this();
 		// call default constructor
 		
+		this.drawings = drawings;
 		this.drawingData = drawingData;
 	}
 
