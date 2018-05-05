@@ -9,10 +9,12 @@
 // Import Core Java packages
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class Draw extends JFrame implements ActionListener, ItemListener {
+public class Draw extends JFrame implements ActionListener, ItemListener, ListSelectionListener {
 
 	// Initial Frame size
 	static final int WIDTH = 400;                // frame width
@@ -30,6 +32,11 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
     // Color choice box
     JComboBox colorChoice;
 
+    // the list of drawing objects
+    JList<String> drawingList;
+    // the vector that holds the display data for drawing objs
+    DefaultListModel<String> drawingData;
+    
     // the canvas
     DrawCanvas canvas;
 
@@ -69,9 +76,21 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
         
         colorPanel.add(colorChoice);
         colorChoice.addItemListener(this);
-
+        
+        // init drawing data
+        drawingData = new DefaultListModel<String>();
+        
+        // create drawing list
+        drawingList = new JList<String>(drawingData);
+        drawingList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        drawingList.addListSelectionListener(this);
+        JScrollPane listScroller = new JScrollPane(drawingList);
+        JPanel listPanel = new JPanel(new BorderLayout());
+        listPanel.add(listScroller, BorderLayout.CENTER);
+        add(listPanel, BorderLayout.WEST);
+        
         // create the canvas
-        canvas = new DrawCanvas();
+        canvas = new DrawCanvas(drawingData);
         add(canvas, BorderLayout.CENTER);
 	} // end of constructor
 
@@ -97,6 +116,12 @@ public class Draw extends JFrame implements ActionListener, ItemListener {
     public void itemStateChanged(ItemEvent event) {
         Color color = COLORS[colorChoice.getSelectedIndex()];
         canvas.setFilledColor(color);
+    }
+    
+    /**
+     * implementing valueChanged
+     */
+    public void valueChanged(ListSelectionEvent event) {
     }
 
     /**
